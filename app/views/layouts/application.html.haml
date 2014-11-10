@@ -1,0 +1,47 @@
+!!!
+%html
+  %head
+    %title TestOnapp
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = javascript_include_tag :cocoon
+    %link{:href => "//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css", :rel => "stylesheet"}/
+    = csrf_meta_tags
+  %body
+- if current_user  
+  %nav.navbar.navbar-inverse.navbar-fixed-top{:role => "navigation"}
+    .container-fluid
+      .navbar-header
+        = form_tag('/search', :class => "form-horizontal ng-pristine ng-valid") do
+          = text_field_tag :link
+          = submit_tag("Search", :class => "btn btn-primary fa fa-check", :name => "Search")
+      %ul.nav.navbar-nav.navbar-right
+        %li.dropdown
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => ""}
+            %i.fa.fa-book
+            Tickets
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to "New Unassigned Tickets", root_path                    
+            %li
+              = link_to "Open Tickets", "/open_tickets"                                    
+            %li
+              = link_to "On Hold Tickets", "/on_hold_tickets"            
+            %li
+              = link_to "Closed Tickets", "/closed_tickets"                                        |
+        %li.dropdown
+          %a.dropdown-toggle.ng-binding{"data-toggle" => "dropdown", :href => ""}
+            %i.fa.fa-user
+            - if current_user
+              = current_user.email
+            - else
+              %b stranger
+            %span.caret
+          %ul.dropdown-menu
+            %li.logout
+              = link_to "Log out", destroy_user_session_path, :method => :delete
+            %li.divider
+    
+    
+#{yield}

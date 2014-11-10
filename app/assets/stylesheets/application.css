@@ -1,0 +1,31 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+ *= require_self
+ *= require 'bootstrap.min'
+ *= require main
+ *= require abn_tree
+ *= //require_tree .
+ */
+
+
+.row.alerts{position: relative}
+.row.alerts button.close{position: absolute; right: 10px; top: 10px;}
+.left-menu-on{
+    -webkit-transform: translate3d(286px, 0px, 0px) !important;
+    -moz-transform:    translate3d(286px, 0px, 0px) !important;
+    -ms-transform:     translate3d(286px, 0px, 0px) !important;
+    transform:         translate3d(286px, 0px, 0px) !important;
+}
+.btn-group form.button_to{ display: inline-block;}
+/*.modal-backdrop{z-index: 1 !important;}*/

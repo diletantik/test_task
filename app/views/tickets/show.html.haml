@@ -1,0 +1,46 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @ticket.name
+%p
+  %b Subject:
+  = @ticket.subject
+%p
+  %b Body:
+  = @ticket.body
+
+%p
+  - if current_user
+    = form_for @ticket, url: '/ticket_update/'+@ticket.id.to_s, method: :post do
+      = collection_select(:ticket, :ticket_status_id, TicketStatus.all, :id, :name, options ={:prompt =>""}, :class => "")
+      = submit_tag "Change Status", class: "btn btn-small"
+  - else
+    %b Current Status:
+    = TicketStatus.where('id = ?', @ticket.ticket_status_id).first.name
+  %br
+- @comments = Comment.where('ticket_id = ?', @ticket.id) 
+%p
+- if @comments.present?
+  - @comments.each do |c|
+    = label_tag :comment
+    = c.comment
+    %br
+.modal-body
+  - if TicketStatus.where('id = ?', @ticket.ticket_status_id).first.name == "Completed"
+    Your Ticket Completed
+  -elsif TicketStatus.where('id = ?', @ticket.ticket_status_id).first.name == "Cancelled"
+    Your Ticket Cancelled
+  -else
+    = form_for @comment, url: "comment_create", method: :post, html: { role: "form", :multipart => true } do |f|
+      .form-group
+      = f.label :comment
+      = f.text_area :comment, class: "form-control"
+      %input{:name => "[comment][ticket_id]", :type => "hidden", :value => @ticket.id}/
+
+      .form-group
+      = f.submit 'Add Comment', class: "btn btn-small"
+
+= link_to 'Edit', edit_ticket_path(@ticket)
+\|
+= link_to 'Back', tickets_path

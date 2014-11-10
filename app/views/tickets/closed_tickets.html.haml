@@ -1,0 +1,25 @@
+%h1 Closed tickets
+
+%table#logs.table.table-hover
+  %thead
+    %tr.header
+      %th Subject
+      %th Email
+      %th Name
+      %th{:width => "60"} Show
+  %tbody
+    / WASTE LIST
+    - if @tickets.present?
+      - @tickets.each do |ticket|
+        %tr#53b2d573eb0e0a0200000003.log.ng-scope
+          %td
+            %span.ng-scope.ng-binding.editable{"e-form" => "rowform"}= ticket.subject
+          %td
+            %span.ng-scope.ng-binding.editable{"e-form" => "rowform"}= ticket.email
+          %td
+            %span.ng-scope.ng-binding.editable{"e-form" => "rowform"}= ticket.name
+          %td
+            .buttons.pull-right.parent-button-block.text-center
+              .btn-group.waste-btn-grp-show.text-center
+                = link_to("/tickets/"+ticket.link, :class => "btn btn-default waste-edit-btn") do                                          
+                  %i.fa.fa-pencil

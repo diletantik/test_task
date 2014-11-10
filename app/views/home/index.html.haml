@@ -1,0 +1,36 @@
+%body
+  - if current_user
+    = render "new_tickets"
+  - else
+    .container-fluid
+      .space
+      .row
+        .col-sm-offset-4.col-sm-4
+          .text-center
+            = image_tag("/ima.jpeg")
+      .row.text-center
+        #signup{:style => "display: block;"}
+          .text-center.title
+            %strong.text-uppercase Add your tickets here
+          .col-sm-offset-3.col-sm-5
+            %hr/
+            .row.alerts
+              = flash[:notice]
+              - if session[:errors]
+                .alert.alert-danger.fade.in
+                  - session[:errors].each do |msg|
+                    %p= msg
+                  %button.close{"data-dismiss" => "alert", :type => "button"}
+                    %span{"aria-hidden" => "true"} ×
+                    %span.sr-only Close
+                - session[:errors] = nil
+            .row.alerts
+            .form-group
+              = link_to "Add New Ticket", "#", "data-toggle" => "modal", "data-target"=>"#new_ticket_id", :class => "btn btn-primary"
+            .form-group
+              %a#show-login.btn.btn-primary{:href => "/users/sign_in"}
+                Sign in
+    .modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :id => "new_ticket_id", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          = render "new_ticket"

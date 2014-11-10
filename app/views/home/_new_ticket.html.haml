@@ -1,0 +1,25 @@
+= form_for @ticket, :controller => "tickets", :action => 'create' do |f|
+  - if @ticket.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ticket.errors.count, "error")} prohibited this ticket from being saved:"
+      %ul
+        - @ticket.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.label :name, class: 'control-label col-sm-5'
+    .col-sm-7
+      = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :email, class: 'control-label col-sm-5'
+    .col-sm-7
+      = f.email_field :email, class: "form-control"
+  .form-group
+    = f.label :subject, class: 'control-label col-sm-5'
+    .col-sm-7
+      = f.text_field :subject, class: "form-control"
+  .form-group
+    = f.label :body, class: 'control-label col-sm-5'
+    .col-sm-7
+      = f.text_area :body, class: "form-control"
+  .form-group
+    = f.submit 'Save', class: "btn btn-primary"
