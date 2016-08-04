@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-	def search_ticket
+	def index
 		@link = params[:link]
 		@ticket = Ticket.where('link = ?', @link).first
 		if @ticket.present?

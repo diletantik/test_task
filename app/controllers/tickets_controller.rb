@@ -23,7 +23,6 @@ class TicketsController < ApplicationController
 
   def create
     @ticket = Ticket.new(ticket_params)
-    @ticket.link = [*('A'..'Z')].sample(3).join.to_s+'-'+SecureRandom.hex(1).to_s+'-'+[*('A'..'Z')].sample(3).join.to_s+'-'+SecureRandom.hex(1).to_s+'-'+[*('A'..'Z')].sample(3).join.to_s
     @status = TicketStatus.where('name = ?', 'Waiting for Staff Response').first
     @ticket.ticket_status_id = @status.id
     if @ticket.valid?
@@ -32,18 +31,6 @@ class TicketsController < ApplicationController
       UserMailer.new_ticket(@ticket).deliver
     else
        flash[:notice] = "smth wrong. check your data"
-    end
-    redirect_to :back
-  end
-
-  def comment_create
-    @comment = Comment.new(comment_params)
-    @ticket = Ticket.find(@comment.ticket_id)
-    if @comment.valid?
-      @comment.save
-      UserMailer.new_comment(@ticket).deliver
-    else
-      flash[:notice] = "Your comment is wrong"
     end
     redirect_to :back
   end
@@ -60,17 +47,17 @@ class TicketsController < ApplicationController
     respond_with(@ticket)
   end
 
-  def open_tickets 
+  def open
     @new = TicketStatus.where('name = ?', 'Waiting for Customer').first
     @tickets = @new.tickets
   end
 
-  def on_hold_tickets
+  def on_hold
     @new = TicketStatus.where('name = ?', 'On Hold').first
     @tickets = @new.tickets
   end
 
-  def closed_tickets
+  def closed
     @cancelled = TicketStatus.where('name = ?', 'Cancelled').first
     @completed = TicketStatus.where('name = ?', 'Completed').first
     @tickets = @cancelled.tickets+@completed.tickets
